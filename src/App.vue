@@ -1,26 +1,57 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <GalleryContainer
+      @picture-in-picture="isPictureInPicture"
+      :requestPauseTrigger="requestPauseTrigger"
+    />
+    <PictureInPicture
+      v-if="showPictureInPicture"
+      :videoTime="videoTime"
+      @request-pause="requestPause"
+    />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import GalleryContainer from "./components/GalleryContainer.vue";
+import PictureInPicture from "./components/PictureInPicture.vue";
 
 export default {
-  name: 'App',
+  name: "App",
+  data() {
+    return {
+      showPictureInPicture: false,
+      videoTime: 0,
+      requestPauseTrigger: 0,
+    };
+  },
   components: {
-    HelloWorld
-  }
-}
+    GalleryContainer,
+    PictureInPicture,
+  },
+  methods: {
+    isPictureInPicture(e) {
+      if (e[0]) {
+        this.showPictureInPicture = true;
+        this.videoTime = e[1];
+      } else {
+        this.showPictureInPicture = false;
+      }
+    },
+    requestPause() {
+      this.requestPauseTrigger = this.requestPauseTrigger + 1;
+    },
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+body {
+  margin: 2rem 0;
+  background-color: #9ec2ec;
+}
+.container {
+  width: 80%;
+  margin: 0 auto;
 }
 </style>
